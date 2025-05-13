@@ -1,3 +1,65 @@
-.botao{
-    margin
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+}
+h1{
+    text-align:center;
+}
+.titulo{
+    margin-top: 33px;
+}
+.camposel{
+    margin: 12.5% 12.5% 12.5% 12.5%;
+    background-color: rgb(245, 245, 245);
+    height:50%;
+    width: 50%;
+    padding: 12.5% 12.5% 12.5% 12.5%;
+    box-shadow: 3px 7px 40px #888;
+}
+.lnkbtt{
+    background-color: rgb(0, 80, 225);
+    color:rgb(238, 238, 238);
+    padding: 5% 5% 5% 5%;
+    border-radius: 10px;
+    
+}
+ #nlft{
+    float:left;
+    background-color:rgb(225, 0, 0)
+}
+ #nrgt{
+    float:right;
+}
+.twbt{
+    margin-bottom:12.5%;
+}
+
+
+
+
+
+.frmlo{
+font-size: x-large;
+}
+.frmlo span{
+    padding: 1% 2% 2% 2%;
+    margin: 2% 2% 2% 2%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+.frmlo input{
+    border-radius: 7px;
+    border: 0.1px solid white;
+    text-align:center;
+}
+
+.frmlo button{
+        border-radius: 10px;
+        font-size: 20px;
+        text-align:center;
+        margin-left: 40%;
+        background-color: rgb(0, 80, 225);
+        color:whitesmoke;
+        border: none;
+        padding: 1% 2% 1% 2%;
 }
