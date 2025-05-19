@@ -6,7 +6,7 @@ h1{
     text-align:center;
 }
 .titulo{
-    margin-top: 33px;
+    margin-top: 100px;
 }
 .camposel{
     margin: 12.5% 12.5% 12.5% 12.5%;
@@ -30,11 +30,28 @@ h1{
  #nrgt{
     float:right;
 }
+#nctr{
+    float:left;
+    margin-left: 30px;
+    background-color:green;
+}
+
 .twbt{
     margin-bottom:12.5%;
 }
+#retr{
+    text-decoration: none;
+    color:#303030;
+    margin-left: 20px;
+    border-left : 2px solid #000000 ;
+    padding: 1px 5px 1px 5px;
+    border-radius: 3px;
+    background-color: aliceblue;
+}
 
-
+#lista{
+    font-size:20px;
+}
 
 
 
@@ -43,13 +60,13 @@ font-size: x-large;
 }
 .frmlo span{
     padding: 1% 2% 2% 2%;
-    margin: 2% 2% 2% 2%;
-    background-color: rgb(255, 255, 255);
+    margin: 2% 2% 2% 12.5%;
+    background-color:  rgb(219, 219, 219);
     border-radius: 10px;
 }
 .frmlo input{
     border-radius: 7px;
-    border: 0.1px solid white;
+    border: 1px solid rgb(242, 242, 242);
     text-align:center;
 }
 
@@ -63,3 +80,24 @@ font-size: x-large;
         border: none;
         padding: 1% 2% 1% 2%;
 }
+
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    padding: 8px;
+    border: 1px solid  rgba(245, 245, 245, 0);
+    text-align: center;
+  }
+  th {
+    background-color: rgb(219, 219, 219);
+  }
+
+  #lista-exibicao{
+    margin-bottom: 50px;
+    padding:100px;
+    border-radius: 40px;
+    background-color: rgb(242, 242, 242);
+  }
