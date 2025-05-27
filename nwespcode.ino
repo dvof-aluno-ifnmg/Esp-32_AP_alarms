@@ -1,33 +1,85 @@
 #include <WiFi.h>
 #include <WebServer.h>
+#include <ESPmDNS.h>
+#include <indexHtml.h>
+#include <stylesCss.h>
+#include <removePageHtml.h>
+#include <addPageHtml.h>
+#include<listamed.h>
 
 // Configurações do AP
 const char* ap_ssid = "ESP32_MedManager";
 const char* ap_password = "12345678"; // Mínimo 8 caracteres
 
-
 WebServer server(80);
 
-void handleForm() {
-  if (server.method() == HTTP_POST) {
+
+void rotas(){
+  server.on("/", HTTP_GET, []() {
+    server.send(200, "text/html", indexHtml);
+  });
+
+  server.on("/styles.css", HTTP_GET, []() {
+    server.send(200, "text/css", stylesCss);
+  });
+
+    server.on("/removePage.html", HTTP_GET, []() {
+    server.send(200, "text/html", removePageHtml);
+  });
+  
+    server.on("/listamed.html", HTTP_GET, []() {
+    server.send(200, "text/html", getListaMedHtml());
+  });
+
+      server.on("/addPage.html", HTTP_GET, []() {
+    server.send(200, "text/html", addPageHtml);
+  });
+  
+
+  server.on("/add", HTTP_GET, handleAdd); 
+  server.on("/remov", HTTP_GET, handleRemov);
+}
+
+void handleRemov() {
+  if (server.method() == HTTP_GET) {
+    String medicamento = server.arg("medTOrem");
+
+    Serial.println("\nDados recebidos via formulário:");
+    Serial.println("Medicamento: " + medicamento);
+    
+    // Envia resposta ao cliente
+    server.send(200, "text/html",      
+   "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
+   "<title>Confirmação</title></head><body>"
+   "<h2>Medicamento removido pela ESP32:</h2>"
+   "<p>Medicamento: " + medicamento + "</p>"
+   "<a href='/'>Voltar</a></body></html>"
+      );
+  }
+}
+
+
+void handleAdd() {
+  if (server.method() == HTTP_GET) {
     String medicamento = server.arg("mdcm");
     String horario = server.arg("hora");
     String intervalo = server.arg("itvl");
-    Serial.println("Dados armazenados com sucesso!")
+    
     Serial.println("\nDados recebidos via formulário:");
     Serial.println("Medicamento: " + medicamento);
     Serial.println("Horário: " + horario);
     Serial.println("Intervalo: " + intervalo + " horas");
     
     // Envia resposta ao cliente
-    server.send(200, "text/html", 
-      "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
+    server.send(200, "text/html",      
+    "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
       "<title>Confirmação</title></head><body>"
       "<h2>Dados recebidos pela ESP32:</h2>"
       "<p>Medicamento: " + medicamento + "</p>"
       "<p>Horário: " + horario + "</p>"
       "<p>Intervalo: " + intervalo + " horas</p>"
-      "<a href='/'>Voltar</a></body></html>");
+      "<a href='/'>Voltar</a></body></html>"
+      );
   }
 }
 
@@ -45,32 +97,22 @@ void setup() {
   Serial.println(WiFi.softAPIP());
 
   // Configura as rotas
-  server.on("/", HTTP_GET, []() {
-    server.send(200, "text/html", 
-      "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
-      "<title>Gerenciador de Medicamentos</title>"
-      "<style>"
-      "body {font-family: Arial; margin: 40px;}"
-      "form {max-width: 400px; margin: 0 auto;}"
-      "input, button {padding: 8px; margin: 5px 0; width: 100%;}"
-      "</style></head>"
-      "<body>"
-      "<h2>Cadastrar Medicamento</h2>"
-      "<form action='/cadastro' method='post'>"
-      "<label for='mdcm'>Nome do medicamento:</label><br>"
-      "<input type='text' id='mdcm' name='mdcm' required><br>"
-      "<label for='hora'>Horário:</label><br>"
-      "<input type='time' id='hora' name='hora' required><br>"
-      "<label for='itvl'>Intervalo (horas):</label><br>"
-      "<input type='number' id='itvl' name='itvl' required><br><br>"
-      "<button type='submit'>Enviar</button>"
-      "</form></body></html>");
-  });
+  rotas();
   
-  server.on("/cadastro", HTTP_POST, handleForm);
-  
+  //configura o DNS
+  char* dns = "medmanager";
+      if (!MDNS.begin(dns)) {
+    Serial.println("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+  Serial.printf("DNS iniciado acesse: %s.local\n", dns);
+
+  //inicia o servidor
   server.begin();
   Serial.println("Servidor HTTP iniciado");
+  MDNS.addService("http", "tcp", 80);
 }
 
 void loop() {
